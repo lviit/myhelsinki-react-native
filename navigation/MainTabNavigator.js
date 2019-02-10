@@ -1,11 +1,12 @@
 import React from "react";
-import { Platform } from "react-native";
+import { Platform, View } from "react-native";
 import {
   createStackNavigator,
-  createBottomTabNavigator
+  createMaterialTopTabNavigator
 } from "react-navigation";
+import { MaterialTopTabBar } from "react-navigation-tabs";
+import { Constants } from "expo";
 
-import TabBarIcon from "../components/TabBarIcon";
 import HomeScreen from "../screens/HomeScreen";
 import ActivitiesScreen from "../screens/ActivitiesScreen";
 import PlacesScreen from "../screens/PlacesScreen";
@@ -17,17 +18,7 @@ const HomeStack = createStackNavigator({
 });
 
 HomeStack.navigationOptions = {
-  tabBarLabel: "Home",
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={
-        Platform.OS === "ios"
-          ? `ios-information-circle${focused ? "" : "-outline"}`
-          : "md-information-circle"
-      }
-    />
-  )
+  tabBarLabel: "Home"
 };
 
 const ActivitiesStack = createStackNavigator({
@@ -35,13 +26,7 @@ const ActivitiesStack = createStackNavigator({
 });
 
 ActivitiesStack.navigationOptions = {
-  tabBarLabel: "Activities",
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === "ios" ? "ios-link" : "md-link"}
-    />
-  )
+  tabBarLabel: "Activities"
 };
 
 const PlacesStack = createStackNavigator({
@@ -49,13 +34,7 @@ const PlacesStack = createStackNavigator({
 });
 
 PlacesStack.navigationOptions = {
-  tabBarLabel: "Places",
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === "ios" ? "ios-map" : "md-map"}
-    />
-  )
+  tabBarLabel: "Places"
 };
 
 const EventListStack = createStackNavigator({
@@ -64,18 +43,33 @@ const EventListStack = createStackNavigator({
 });
 
 EventListStack.navigationOptions = {
-  tabBarLabel: "Events",
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === "ios" ? "ios-calendar" : "md-calendar"}
-    />
-  )
+  tabBarLabel: "Events"
 };
 
-export default createBottomTabNavigator({
-  HomeStack,
-  ActivitiesStack,
-  PlacesStack,
-  EventListStack
-});
+export default createMaterialTopTabNavigator(
+  {
+    HomeStack,
+    ActivitiesStack,
+    PlacesStack,
+    EventListStack
+  },
+  { tabBarComponent: MaterialTopTabBarWithStatusBar }
+);
+
+function MaterialTopTabBarWithStatusBar(props) {
+  return (
+    <View
+      style={{
+        paddingTop: Constants.statusBarHeight,
+        backgroundColor: "#51BD9D"
+      }}
+    >
+      <MaterialTopTabBar
+        {...props}
+        style={{ backgroundColor: "#51BD9D" }}
+        indicatorStyle={{ backgroundColor: "#ffffff" }}
+        jumpToIndex={() => {}}
+      />
+    </View>
+  );
+}

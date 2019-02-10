@@ -1,26 +1,21 @@
 import React from "react";
+import { Image } from "react-native";
+import { Container, Text, H1 } from "native-base";
+import { format } from "date-fns";
 
-import {
-  Container,
-  Header,
-  Content,
-  List,
-  ListItem,
-  Thumbnail,
-  Text,
-  Left,
-  Body,
-  Right,
-  Button
-} from "native-base";
+const stripTags = str => str.replace(/(<([^>]+)>)/gi, "");
 
 export default class EventScreen extends React.Component {
   static navigationOptions = {
-    title: "Links"
+    title: "Event"
   };
 
   state = {
-    results: [],
+    eventData: {
+      description: { images: [{}], body: "" },
+      event_dates: { starting_day: "" },
+      name: { fi: "" }
+    },
     isLoading: false
   };
 
@@ -35,21 +30,29 @@ export default class EventScreen extends React.Component {
     fetch(`http://open-api.myhelsinki.fi/v1/event/${id}`)
       .then(res => res.json())
       .then(json => {
-        this.setState({ results: json.data, isLoading: false });
+        this.setState({ eventData: json, isLoading: false });
       });
   }
 
   render() {
-    const { isLoading, results } = this.state;
+    const { isLoading, eventData } = this.state;
+    const {
+      description: { images, body },
+      event_dates: { starting_day },
+      name: { fi: nameFi }
+    } = eventData;
 
     return isLoading ? (
       <Text>Fetching data</Text>
     ) : (
       <Container>
-        <Header />
-        <Content>
-          <Text>foo</Text>
-        </Content>
+        <Image
+          source={{ uri: images[0].url }}
+          style={{ height: 200, alignSelf: "stretch" }}
+        />
+        <H1>{nameFi}</H1>
+        <Text note>{format(starting_day, "DD.MM.YYYY")}</Text>
+        <Text>{stripTags(body)}</Text>
       </Container>
     );
   }
