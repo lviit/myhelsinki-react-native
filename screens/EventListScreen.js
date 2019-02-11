@@ -12,8 +12,10 @@ import {
   Left,
   Body,
   Right,
-  Button
+  Button,
+  Spinner
 } from "native-base";
+import { iOSUIKit } from "react-native-typography";
 
 export default class EventListScreen extends React.Component {
   state = {
@@ -44,7 +46,7 @@ export default class EventListScreen extends React.Component {
     return (
       <Container>
         {isLoading ? (
-          <Text>Fetching data</Text>
+          <Spinner />
         ) : (
           <List>
             {results.map(
@@ -56,10 +58,12 @@ export default class EventListScreen extends React.Component {
               }) => (
                 <ListItem thumbnail key={id}>
                   <Left>
-                    <Thumbnail square source={{ uri: images[0].url }} />
+                    {images[0] && (
+                      <Thumbnail square source={{ uri: images[0].url }} />
+                    )}
                   </Left>
                   <Body>
-                    <Text>{nameFi}</Text>
+                    <Text style={iOSUIKit.title3Emphasized}>{nameFi}</Text>
                     <Text note>{format(starting_day, "DD.MM.YYYY")}</Text>
                     <Text note numberOfLines={1}>
                       {intro}

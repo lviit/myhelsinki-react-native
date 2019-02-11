@@ -1,6 +1,7 @@
 import React from "react";
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { WebBrowser } from "expo";
+import { iOSUIKit } from "react-native-typography";
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -16,17 +17,15 @@ export default class HomeScreen extends React.Component {
         >
           <View style={styles.welcomeContainer}>
             <Image
-              source={
-                __DEV__
-                  ? require("../assets/images/robot-dev.png")
-                  : require("../assets/images/robot-prod.png")
-              }
+              source={require("../assets/images/helsinki-logo.png")}
               style={styles.welcomeImage}
             />
           </View>
 
           <View style={styles.getStartedContainer}>
-            <Text style={styles.developmentModeText}>
+            <Text
+              style={[iOSUIKit.title3Emphasized, styles.developmentModeText]}
+            >
               React Native app using the MyHelsinki Open API. Check out the{" "}
               <Text
                 onPress={this._handleMyHelsinkiLink}
@@ -61,30 +60,22 @@ export default class HomeScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#fff"
+    flex: 1
   },
   developmentModeText: {
     marginBottom: 20,
-    color: "rgba(0,0,0,0.4)",
-    fontSize: 14,
-    lineHeight: 19,
     textAlign: "center"
   },
   contentContainer: {
     paddingTop: 30
   },
   welcomeContainer: {
-    alignItems: "center",
-    marginTop: 10,
-    marginBottom: 20
+    alignItems: "center"
   },
   welcomeImage: {
-    width: 100,
+    width: 150,
     height: 80,
-    resizeMode: "contain",
-    marginTop: 3,
-    marginLeft: -10
+    resizeMode: "contain"
   },
   getStartedContainer: {
     alignItems: "center",
@@ -94,7 +85,6 @@ const styles = StyleSheet.create({
     paddingVertical: 15
   },
   helpLinkText: {
-    fontSize: 14,
     color: "#2e78b7"
   }
 });
