@@ -45,35 +45,41 @@ export default class PlacesScreen extends React.Component {
 
     return (
       <Container>
-        {isLoading ? (
-          <Spinner />
-        ) : (
-          <List>
-            {results.map(
-              ({ description: { images, body }, name: { fi: nameFi }, id }) => (
-                <ListItem thumbnail key={id}>
-                  <Left />
-                  <Body>
-                    <Text style={iOSUIKit.title3Emphasized}>{nameFi}</Text>
-                    <Text note numberOfLines={1}>
-                      {body}
-                    </Text>
-                  </Body>
-                  <Right>
-                    <Button
-                      transparent
-                      onPress={() =>
-                        this.props.navigation.navigate("EventScreen", { id })
-                      }
-                    >
-                      <Text>View</Text>
-                    </Button>
-                  </Right>
-                </ListItem>
-              )
-            )}
-          </List>
-        )}
+        <Content>
+          {isLoading ? (
+            <Spinner />
+          ) : (
+            <List>
+              {results.map(
+                ({
+                  description: { images, body },
+                  name: { fi: nameFi },
+                  id
+                }) => (
+                  <ListItem thumbnail key={id}>
+                    <Left />
+                    <Body>
+                      <Text style={iOSUIKit.title3Emphasized}>{nameFi}</Text>
+                      <Text note numberOfLines={1}>
+                        {body}
+                      </Text>
+                    </Body>
+                    <Right>
+                      <Button
+                        transparent
+                        onPress={() =>
+                          this.props.navigation.navigate("EventScreen", { id })
+                        }
+                      >
+                        <Text>View</Text>
+                      </Button>
+                    </Right>
+                  </ListItem>
+                )
+              )}
+            </List>
+          )}
+        </Content>
       </Container>
     );
   }
