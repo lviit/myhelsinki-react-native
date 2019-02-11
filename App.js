@@ -29,7 +29,11 @@ export default class App extends React.Component {
 
   _loadResourcesAsync = async () => {
     return Promise.all([
-      Asset.loadAsync([require("./assets/images/helsinki-logo.png")]),
+      Asset.loadAsync([
+        require("./assets/474-skeleton-frame-loading.json"),
+        require("./assets/27-loading.json"),
+        require("./assets/images/helsinki-logo.png")
+      ]),
       Font.loadAsync({
         // We include SpaceMono because we use it in HomeScreen.js. Feel free
         // to remove this if you are not using it in your app

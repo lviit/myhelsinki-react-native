@@ -1,5 +1,6 @@
 import React from "react";
 import { format } from "date-fns";
+import LoadingList from "../components/LoadingList";
 
 import {
   Container,
@@ -43,48 +44,46 @@ export default class EventListScreen extends React.Component {
   render() {
     const { isLoading, results } = this.state;
 
-    return (
+    return isLoading ? (
+      <LoadingList />
+    ) : (
       <Container>
         <Content>
-          {isLoading ? (
-            <Spinner />
-          ) : (
-            <List>
-              {results.map(
-                ({
-                  description: { images, intro },
-                  event_dates: { starting_day },
-                  name: { fi: nameFi },
-                  id
-                }) => (
-                  <ListItem thumbnail key={id}>
-                    <Left>
-                      {images[0] && (
-                        <Thumbnail square source={{ uri: images[0].url }} />
-                      )}
-                    </Left>
-                    <Body>
-                      <Text style={iOSUIKit.title3Emphasized}>{nameFi}</Text>
-                      <Text note>{format(starting_day, "DD.MM.YYYY")}</Text>
-                      <Text note numberOfLines={1}>
-                        {intro}
-                      </Text>
-                    </Body>
-                    <Right>
-                      <Button
-                        transparent
-                        onPress={() =>
-                          this.props.navigation.navigate("EventScreen", { id })
-                        }
-                      >
-                        <Text>View</Text>
-                      </Button>
-                    </Right>
-                  </ListItem>
-                )
-              )}
-            </List>
-          )}
+          <List>
+            {results.map(
+              ({
+                description: { images, intro },
+                event_dates: { starting_day },
+                name: { fi: nameFi },
+                id
+              }) => (
+                <ListItem thumbnail key={id}>
+                  <Left>
+                    {images[0] && (
+                      <Thumbnail square source={{ uri: images[0].url }} />
+                    )}
+                  </Left>
+                  <Body>
+                    <Text style={iOSUIKit.title3Emphasized}>{nameFi}</Text>
+                    <Text note>{format(starting_day, "DD.MM.YYYY")}</Text>
+                    <Text note numberOfLines={1}>
+                      {intro}
+                    </Text>
+                  </Body>
+                  <Right>
+                    <Button
+                      transparent
+                      onPress={() =>
+                        this.props.navigation.navigate("EventScreen", { id })
+                      }
+                    >
+                      <Text>View</Text>
+                    </Button>
+                  </Right>
+                </ListItem>
+              )
+            )}
+          </List>
         </Content>
       </Container>
     );

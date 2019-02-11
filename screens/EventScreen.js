@@ -5,6 +5,7 @@ import { format } from "date-fns";
 import { iOSUIKit } from "react-native-typography";
 import MapView from "react-native-maps";
 import { Marker } from "react-native-maps";
+import Loading from "../components/Loading";
 
 const stripTags = str => str.replace(/(<([^>]+)>)/gi, "");
 
@@ -48,7 +49,7 @@ export default class EventScreen extends React.Component {
     } = eventData;
 
     return isLoading ? (
-      <Spinner />
+      <Loading />
     ) : (
       <Container>
         {images[0] && (

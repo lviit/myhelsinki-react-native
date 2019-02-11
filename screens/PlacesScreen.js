@@ -1,5 +1,6 @@
 import React from "react";
 import { format } from "date-fns";
+import LoadingList from "../components/LoadingList";
 
 import {
   Container,
@@ -43,42 +44,36 @@ export default class PlacesScreen extends React.Component {
   render() {
     const { isLoading, results } = this.state;
 
-    return (
+    return isLoading ? (
+      <LoadingList />
+    ) : (
       <Container>
         <Content>
-          {isLoading ? (
-            <Spinner />
-          ) : (
-            <List>
-              {results.map(
-                ({
-                  description: { images, body },
-                  name: { fi: nameFi },
-                  id
-                }) => (
-                  <ListItem thumbnail key={id}>
-                    <Left />
-                    <Body>
-                      <Text style={iOSUIKit.title3Emphasized}>{nameFi}</Text>
-                      <Text note numberOfLines={1}>
-                        {body}
-                      </Text>
-                    </Body>
-                    <Right>
-                      <Button
-                        transparent
-                        onPress={() =>
-                          this.props.navigation.navigate("EventScreen", { id })
-                        }
-                      >
-                        <Text>View</Text>
-                      </Button>
-                    </Right>
-                  </ListItem>
-                )
-              )}
-            </List>
-          )}
+          <List>
+            {results.map(
+              ({ description: { images, body }, name: { fi: nameFi }, id }) => (
+                <ListItem thumbnail key={id}>
+                  <Left />
+                  <Body>
+                    <Text style={iOSUIKit.title3Emphasized}>{nameFi}</Text>
+                    <Text note numberOfLines={1}>
+                      {body}
+                    </Text>
+                  </Body>
+                  <Right>
+                    <Button
+                      transparent
+                      onPress={() =>
+                        this.props.navigation.navigate("EventScreen", { id })
+                      }
+                    >
+                      <Text>View</Text>
+                    </Button>
+                  </Right>
+                </ListItem>
+              )
+            )}
+          </List>
         </Content>
       </Container>
     );
