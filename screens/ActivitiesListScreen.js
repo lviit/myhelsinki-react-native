@@ -1,16 +1,17 @@
 import React from "react";
 import LoadingList from "../components/LoadingList";
-import ListItem from "../components/ListItem";
+import { stripTags } from "../helpers";
 import { Container, Content, List } from "native-base";
+import ListItem from "../components/ListItem";
 
-export default class EventListScreen extends React.Component {
+export default class ActivitiesListScreen extends React.Component {
   state = {
     isLoading: false,
     results: []
   };
 
   static navigationOptions = {
-    title: "Events"
+    title: "Activities"
   };
 
   componentDidMount() {
@@ -19,7 +20,7 @@ export default class EventListScreen extends React.Component {
 
   fetchData() {
     this.setState({ isLoading: true });
-    fetch(`http://open-api.myhelsinki.fi/v1/events/?limit=30`)
+    fetch(`http://open-api.myhelsinki.fi/v1/activities/?limit=30`)
       .then(res => res.json())
       .then(json => {
         this.setState({ results: json.data, isLoading: false });
@@ -36,14 +37,9 @@ export default class EventListScreen extends React.Component {
         <Content>
           <List>
             {results.map(
-              ({
-                description: { images, intro: text },
-                event_dates: { starting_day: date },
-                name: { fi: title },
-                id
-              }) => (
+              ({ description: { images, body }, name: { fi: title }, id }) => (
                 <ListItem
-                  {...{ images, title, date, text, id }}
+                  {...{ images, title, text: stripTags(body), id }}
                   onPress={() =>
                     this.props.navigation.navigate("EventScreen", { id })
                   }

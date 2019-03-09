@@ -8,10 +8,11 @@ import { MaterialTopTabBar } from "react-navigation-tabs";
 import { Constants } from "expo";
 
 import HomeScreen from "../screens/HomeScreen";
-import ActivitiesScreen from "../screens/ActivitiesScreen";
-import PlacesScreen from "../screens/PlacesScreen";
+import ActivitiesListScreen from "../screens/ActivitiesListScreen";
+import PlacesListScreen from "../screens/PlacesListScreen";
 import EventListScreen from "../screens/EventListScreen";
 import EventScreen from "../screens/EventScreen";
+import MapScreen from "../screens/MapScreen";
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen
@@ -22,7 +23,7 @@ HomeStack.navigationOptions = {
 };
 
 const ActivitiesStack = createStackNavigator({
-  Activities: ActivitiesScreen
+  Activities: ActivitiesListScreen
 });
 
 ActivitiesStack.navigationOptions = {
@@ -30,7 +31,7 @@ ActivitiesStack.navigationOptions = {
 };
 
 const PlacesStack = createStackNavigator({
-  Places: PlacesScreen
+  Places: PlacesListScreen
 });
 
 PlacesStack.navigationOptions = {
@@ -39,7 +40,8 @@ PlacesStack.navigationOptions = {
 
 const EventListStack = createStackNavigator({
   EventList: EventListScreen,
-  EventScreen: EventScreen
+  EventScreen: EventScreen,
+  MapScreen: MapScreen
 });
 
 EventListStack.navigationOptions = {

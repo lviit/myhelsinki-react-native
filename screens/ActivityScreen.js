@@ -1,6 +1,6 @@
 import React from "react";
 import { Image, StyleSheet } from "react-native";
-import { Container, Text, Spinner, Content, Button } from "native-base";
+import { Container, Text, Spinner, Content } from "native-base";
 import { format } from "date-fns";
 import { iOSUIKit } from "react-native-typography";
 import MapView from "react-native-maps";
@@ -45,7 +45,7 @@ export default class EventScreen extends React.Component {
       description: { images, body, intro },
       event_dates: { starting_day },
       name: { fi: nameFi },
-      location
+      location: { lat, lon }
     } = eventData;
 
     return isLoading ? (
@@ -63,19 +63,24 @@ export default class EventScreen extends React.Component {
           <Text note style={[iOSUIKit.bodyEmphasized, styles.date]}>
             {format(starting_day, "DD.MM.YYYY")}
           </Text>
-          <Button
-            transparent
-            onPress={() =>
-              this.props.navigation.navigate("MapScreen", { location })
-            }
-          >
-            <Text>Show on map</Text>
-          </Button>
-          <HTML
-            html={body}
-            tagsStyles={{ p: iOSUIKit.body, span: iOSUIKit.body }}
-          />
+          <HTML html={body} tagsStyles={{ p: iOSUIKit.body }} />
           <Text style={iOSUIKit.body}>{stripTags(body)}</Text>
+          <MapView
+            style={styles.map}
+            region={{
+              latitude: lat,
+              longitude: lon,
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421
+            }}
+            showsUserLocation={true}
+          >
+            <Marker
+              coordinate={{ latitude: lat, longitude: lon }}
+              title={nameFi}
+              description={intro}
+            />
+          </MapView>
         </Content>
       </Container>
     );

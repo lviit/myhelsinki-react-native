@@ -1,5 +1,7 @@
 import React from "react";
-import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Image, ScrollView, StyleSheet, View } from "react-native";
+//import Text from "../components/Text";
+import { MonoText } from "../components/StyledText";
 import { WebBrowser } from "expo";
 import { iOSUIKit } from "react-native-typography";
 
@@ -23,24 +25,22 @@ export default class HomeScreen extends React.Component {
           </View>
 
           <View style={styles.getStartedContainer}>
-            <Text
-              style={[iOSUIKit.title3Emphasized, styles.developmentModeText]}
-            >
+            <MonoText style={styles.developmentModeText}>
               React Native app using the MyHelsinki Open API. Check out the{" "}
-              <Text
+              <MonoText
                 onPress={this._handleMyHelsinkiLink}
                 style={styles.helpLinkText}
               >
                 official MyHelsinki website
-              </Text>{" "}
+              </MonoText>{" "}
               or have a closer look at this project on{" "}
-              <Text
+              <MonoText
                 onPress={this._handleGitHubLink}
                 style={styles.helpLinkText}
               >
                 Github.
-              </Text>
-            </Text>
+              </MonoText>
+            </MonoText>
           </View>
         </ScrollView>
       </View>
