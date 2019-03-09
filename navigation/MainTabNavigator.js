@@ -67,7 +67,10 @@ export default createMaterialTopTabNavigator(
     PlacesStack,
     EventListStack
   },
-  { tabBarComponent: MaterialTopTabBarWithStatusBar }
+  {
+    tabBarComponent: MaterialTopTabBarWithStatusBar,
+    tabBarOptions: { scrollEnabled: true }
+  }
 );
 
 function MaterialTopTabBarWithStatusBar(props) {
@@ -83,7 +86,10 @@ function MaterialTopTabBarWithStatusBar(props) {
         style={{
           backgroundColor: "#eee"
         }}
-        labelStyle={{ fontFamily: "open-sans-extrabold", color: "#3f3f3f" }}
+        labelStyle={{
+          fontFamily: "open-sans-extrabold",
+          color: "#3f3f3f"
+        }}
         indicatorStyle={{ backgroundColor: "#aaa", height: 3 }}
         jumpToIndex={() => {}}
       />

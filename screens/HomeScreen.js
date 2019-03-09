@@ -3,7 +3,6 @@ import { Image, ScrollView, StyleSheet, View } from "react-native";
 //import Text from "../components/Text";
 import { MonoText } from "../components/StyledText";
 import { WebBrowser } from "expo";
-import { iOSUIKit } from "react-native-typography";
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {

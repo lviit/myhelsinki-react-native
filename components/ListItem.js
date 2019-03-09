@@ -13,7 +13,7 @@ import {
 } from "native-base";
 
 const CustomListItem = ({ images = [], title, date, text, onPress, id }) => (
-  <ListItem thumbnail key={id} style={styles.text} onPress={() => onPress}>
+  <ListItem thumbnail key={id} style={styles.text} onPress={onPress}>
     <Left style={styles.left}>
       {images[0] && <Thumbnail square large source={{ uri: images[0].url }} />}
     </Left>

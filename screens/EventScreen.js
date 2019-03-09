@@ -1,12 +1,8 @@
 import React from "react";
 import { Image, StyleSheet } from "react-native";
-import { Container, Text, Spinner, Content, Button } from "native-base";
+import { Container, Text, Content, Button } from "native-base";
 import { format } from "date-fns";
-import { iOSUIKit } from "react-native-typography";
-import MapView from "react-native-maps";
-import { Marker } from "react-native-maps";
 import Loading from "../components/Loading";
-import { stripTags } from "../helpers";
 import HTML from "react-native-render-html";
 
 export default class EventScreen extends React.Component {
@@ -19,7 +15,7 @@ export default class EventScreen extends React.Component {
       description: { images: [{}], body: "" },
       event_dates: { starting_day: "" },
       name: { fi: "" },
-      location: {}
+      location: { address: {} }
     },
     isLoading: false
   };
@@ -42,16 +38,23 @@ export default class EventScreen extends React.Component {
   render() {
     const { isLoading, eventData } = this.state;
     const {
-      description: { images, body, intro },
+      description: { images, body },
       event_dates: { starting_day },
       name: { fi: nameFi },
-      location
+      location: {
+        address: { locality, postal_code, street_address },
+        lat,
+        lon
+      }
     } = eventData;
 
     return isLoading ? (
       <Loading />
     ) : (
       <Container>
+        <Button transparent onPress={() => this.props.navigation.goBack(null)}>
+          <Text>Back</Text>
+        </Button>
         {images[0] && (
           <Image
             source={{ uri: images[0].url }}
@@ -59,23 +62,30 @@ export default class EventScreen extends React.Component {
           />
         )}
         <Content padder>
-          <Text style={iOSUIKit.largeTitleEmphasized}>{nameFi}</Text>
-          <Text note style={[iOSUIKit.bodyEmphasized, styles.date]}>
-            {format(starting_day, "DD.MM.YYYY")}
+          <Text style={styles.title}>{nameFi}</Text>
+          <Text style={styles.date}>{format(starting_day, "DD.MM.YYYY")}</Text>
+          <Text style={styles.location}>
+            {`${street_address}, ${postal_code}, ${locality}`}
+            {" - "}
+            <Text
+              style={[styles.location, styles.link]}
+              onPress={() =>
+                this.props.navigation.navigate("MapScreen", {
+                  location: { lat, lon }
+                })
+              }
+            >
+              Show on map
+            </Text>
           </Text>
-          <Button
-            transparent
-            onPress={() =>
-              this.props.navigation.navigate("MapScreen", { location })
-            }
-          >
-            <Text>Show on map</Text>
-          </Button>
           <HTML
             html={body}
-            tagsStyles={{ p: iOSUIKit.body, span: iOSUIKit.body }}
+            tagsStyles={{
+              p: styles.p,
+              span: styles.span,
+              strong: styles.strong
+            }}
           />
-          <Text style={iOSUIKit.body}>{stripTags(body)}</Text>
         </Content>
       </Container>
     );
@@ -83,9 +93,38 @@ export default class EventScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  date: {
-    marginBottom: 10,
-    marginTop: 10
+  title: {
+    fontFamily: "open-sans-extrabold",
+    marginVertical: 5,
+    fontSize: 32,
+    lineHeight: 35
   },
-  map: { alignSelf: "stretch", height: 300, marginTop: 30 }
+  date: {
+    fontFamily: "open-sans-bold",
+    marginBottom: 2,
+    fontSize: 15
+  },
+  location: {
+    fontFamily: "open-sans-bold",
+    marginBottom: 10,
+    fontSize: 15
+  },
+  link: { color: "#519FF2" },
+  p: {
+    fontFamily: "open-sans-regular",
+    letterSpacing: 0.1,
+    fontSize: 15,
+    marginVertical: 7
+  },
+  span: {
+    fontFamily: "open-sans-regular",
+    letterSpacing: 0.1,
+    fontSize: 15
+  },
+  strong: {
+    fontFamily: "open-sans-regular",
+    letterSpacing: 0.1,
+    fontSize: 15,
+    fontFamily: "open-sans-semibold"
+  }
 });
