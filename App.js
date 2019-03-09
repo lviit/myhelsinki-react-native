@@ -30,8 +30,9 @@ export default class App extends React.Component {
   _loadResourcesAsync = async () => {
     return Promise.all([
       Asset.loadAsync([
-        //require("./assets/images/robot-dev.png"),
-        //require("./assets/images/robot-prod.png")
+        //require("./assets/474-skeleton-frame-loading.json"),
+        //require("./assets/27-loading.json"),
+        //require("./assets/images/helsinki-logo.png")
       ]),
       Font.loadAsync({
         // This is the font that we are using for our tab bar
@@ -41,7 +42,7 @@ export default class App extends React.Component {
         "open-sans-regular": require("./assets/fonts/OpenSans-Regular.ttf"),
         "open-sans-semibold": require("./assets/fonts/OpenSans-Semibold.ttf"),
         "open-sans-bold": require("./assets/fonts/OpenSans-Bold.ttf"),
-        "space-mono": require("./assets/fonts/SpaceMono-Regular.ttf")
+        "open-sans-extrabold": require("./assets/fonts/OpenSans-ExtraBold.ttf")
       })
     ]);
   };
