@@ -9,7 +9,9 @@ import { Constants } from "expo";
 
 import HomeScreen from "../screens/HomeScreen";
 import ActivitiesListScreen from "../screens/ActivitiesListScreen";
+import ActivityScreen from "../screens/ActivityScreen";
 import PlacesListScreen from "../screens/PlacesListScreen";
+import PlaceScreen from "../screens/PlaceScreen";
 import EventListScreen from "../screens/EventListScreen";
 import EventScreen from "../screens/EventScreen";
 import MapScreen from "../screens/MapScreen";
@@ -27,7 +29,9 @@ HomeStack.navigationOptions = {
 
 const ActivitiesStack = createStackNavigator(
   {
-    Activities: ActivitiesListScreen
+    ActivitiesList: ActivitiesListScreen,
+    ActivityScreen: ActivityScreen,
+    MapScreen: MapScreen
   },
   { headerMode: "none" }
 );
@@ -38,7 +42,9 @@ ActivitiesStack.navigationOptions = {
 
 const PlacesStack = createStackNavigator(
   {
-    Places: PlacesListScreen
+    PlacesList: PlacesListScreen,
+    PlaceScreen: PlaceScreen,
+    MapScreen: MapScreen
   },
   { headerMode: "none" }
 );
