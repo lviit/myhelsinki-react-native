@@ -1,29 +1,32 @@
 import React from "react";
 import { format } from "date-fns";
 import { StyleSheet } from "react-native";
+import { ListItem, Thumbnail, Text, Left, Body } from "native-base";
+import { stripTags } from "../helpers";
 
-import {
-  ListItem,
-  Thumbnail,
-  Text,
-  Left,
-  Body,
-  Right,
-  Button
-} from "native-base";
-
-const CustomListItem = ({ images = [], title, date, text, onPress, id }) => (
-  <ListItem thumbnail key={id} style={styles.text} onPress={onPress}>
+const CustomListItem = ({
+  description: { images, intro, body },
+  name: { fi: title },
+  event_dates,
+  onPress
+}) => (
+  <ListItem thumbnail style={styles.text} onPress={onPress}>
     <Left style={styles.left}>
-      {images[0] && <Thumbnail square large source={{ uri: images[0].url }} />}
+      {images && images[0] && (
+        <Thumbnail square large source={{ uri: images[0].url }} />
+      )}
     </Left>
     <Body>
       <Text numberOfLines={1} style={styles.title}>
         {title}
       </Text>
-      {date && <Text style={styles.date}>{format(date, "DD.MM.YYYY")}</Text>}
+      {event_dates && (
+        <Text style={styles.date}>
+          {format(event_dates.starting_day, "DD.MM.YYYY")}
+        </Text>
+      )}
       <Text numberOfLines={2} style={styles.text}>
-        {text}
+        {intro || stripTags(body)}
       </Text>
     </Body>
   </ListItem>

@@ -8,61 +8,63 @@ import { MaterialTopTabBar } from "react-navigation-tabs";
 import { Constants } from "expo";
 
 import AboutScreen from "../screens/AboutScreen";
-import ActivitiesListScreen from "../screens/ActivitiesListScreen";
-import PlacesListScreen from "../screens/PlacesListScreen";
-import EventListScreen from "../screens/EventListScreen";
+import ListScreen from "../screens/ListScreen";
 import DetailsScreen from "../screens/DetailsScreen";
 import MapScreen from "../screens/MapScreen";
 
 const ActivitiesStack = createStackNavigator(
   {
-    ActivitiesList: ActivitiesListScreen,
-    DetailsScreen: DetailsScreen,
-    MapScreen: MapScreen
+    ListScreen: props => <ListScreen {...props} type="activity" />,
+    DetailsScreen,
+    MapScreen
   },
-  { headerMode: "none" }
+  {
+    headerMode: "none",
+    navigationOptions: {
+      tabBarLabel: "Activities"
+    }
+  }
 );
-
-ActivitiesStack.navigationOptions = {
-  tabBarLabel: "Activities"
-};
 
 const PlacesStack = createStackNavigator(
   {
-    PlacesList: PlacesListScreen,
-    DetailsScreen: DetailsScreen,
-    MapScreen: MapScreen
+    ListScreen: props => <ListScreen {...props} type="place" />,
+    DetailsScreen,
+    MapScreen
   },
-  { headerMode: "none" }
+  {
+    headerMode: "none",
+    navigationOptions: {
+      tabBarLabel: "Places"
+    }
+  }
 );
-
-PlacesStack.navigationOptions = {
-  tabBarLabel: "Places"
-};
 
 const EventListStack = createStackNavigator(
   {
-    EventList: EventListScreen,
-    DetailsScreen: DetailsScreen,
-    MapScreen: MapScreen
+    ListScreen: props => <ListScreen {...props} type="event" />,
+    DetailsScreen,
+    MapScreen
   },
-  { headerMode: "none" }
+  {
+    headerMode: "none",
+    navigationOptions: {
+      tabBarLabel: "Events"
+    }
+  }
 );
-
-EventListStack.navigationOptions = {
-  tabBarLabel: "Events"
-};
 
 const AboutStack = createStackNavigator(
   {
     About: AboutScreen
   },
-  { headerMode: "none" }
+  {
+    headerMode: "none",
+    navigationOptions: {
+      tabBarLabel: "About"
+    }
+  }
 );
-
-AboutStack.navigationOptions = {
-  tabBarLabel: "About"
-};
 
 export default createMaterialTopTabNavigator(
   {
@@ -91,7 +93,7 @@ function MaterialTopTabBarWithStatusBar(props) {
           backgroundColor: "#eee"
         }}
         labelStyle={{
-          fontFamily: "open-sans-extrabold",
+          fontFamily: "ibm-plex-sans-condensed-bold",
           color: "#3f3f3f"
         }}
         indicatorStyle={{ backgroundColor: "#aaa", height: 3 }}
