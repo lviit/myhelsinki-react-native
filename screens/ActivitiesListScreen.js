@@ -41,7 +41,10 @@ export default class ActivitiesListScreen extends React.Component {
                 <ListItem
                   {...{ images, title, text: stripTags(body), id }}
                   onPress={() =>
-                    this.props.navigation.navigate("ActivityScreen", { id })
+                    this.props.navigation.navigate("DetailsScreen", {
+                      id,
+                      type: "activity"
+                    })
                   }
                 />
               )

@@ -45,7 +45,10 @@ export default class PlacesListScreen extends React.Component {
                   images={images || []}
                   {...{ title, text, id }}
                   onPress={() =>
-                    this.props.navigation.navigate("PlaceScreen", { id })
+                    this.props.navigation.navigate("DetailsScreen", {
+                      id,
+                      type: "place"
+                    })
                   }
                 />
               )

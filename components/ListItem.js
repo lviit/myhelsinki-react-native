@@ -38,19 +38,22 @@ const styles = StyleSheet.create({
     backgroundColor: "#ccc"
   },
   title: {
-    fontFamily: "open-sans-extrabold",
+    fontFamily: "ibm-plex-sans-condensed-semibold",
+    //fontFamily: "source-sans-pro-bold",
     marginBottom: 5,
-    letterSpacing: 0.5,
-    fontSize: 15
+    //letterSpacing: 0.5,
+    fontSize: 16,
+    textTransform: "uppercase"
   },
   date: {
-    fontFamily: "open-sans-semibold",
+    fontFamily: "lato-semibold",
     marginBottom: 2,
     fontSize: 14
   },
   text: {
-    fontFamily: "open-sans-regular",
+    fontFamily: "ibm-plex-sans-regular",
+    //fontFamily: "source-sans-pro-regular",
     letterSpacing: 0.1,
-    fontSize: 12
+    fontSize: 13
   }
 });

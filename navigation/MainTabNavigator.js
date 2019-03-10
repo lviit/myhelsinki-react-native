@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View } from "react-native";
 import {
   createStackNavigator,
   createMaterialTopTabNavigator
@@ -7,30 +7,17 @@ import {
 import { MaterialTopTabBar } from "react-navigation-tabs";
 import { Constants } from "expo";
 
-import HomeScreen from "../screens/HomeScreen";
+import AboutScreen from "../screens/AboutScreen";
 import ActivitiesListScreen from "../screens/ActivitiesListScreen";
-import ActivityScreen from "../screens/ActivityScreen";
 import PlacesListScreen from "../screens/PlacesListScreen";
-import PlaceScreen from "../screens/PlaceScreen";
 import EventListScreen from "../screens/EventListScreen";
-import EventScreen from "../screens/EventScreen";
+import DetailsScreen from "../screens/DetailsScreen";
 import MapScreen from "../screens/MapScreen";
-
-const HomeStack = createStackNavigator(
-  {
-    Home: HomeScreen
-  },
-  { headerMode: "none" }
-);
-
-HomeStack.navigationOptions = {
-  tabBarLabel: "Home"
-};
 
 const ActivitiesStack = createStackNavigator(
   {
     ActivitiesList: ActivitiesListScreen,
-    ActivityScreen: ActivityScreen,
+    DetailsScreen: DetailsScreen,
     MapScreen: MapScreen
   },
   { headerMode: "none" }
@@ -43,7 +30,7 @@ ActivitiesStack.navigationOptions = {
 const PlacesStack = createStackNavigator(
   {
     PlacesList: PlacesListScreen,
-    PlaceScreen: PlaceScreen,
+    DetailsScreen: DetailsScreen,
     MapScreen: MapScreen
   },
   { headerMode: "none" }
@@ -56,7 +43,7 @@ PlacesStack.navigationOptions = {
 const EventListStack = createStackNavigator(
   {
     EventList: EventListScreen,
-    EventScreen: EventScreen,
+    DetailsScreen: DetailsScreen,
     MapScreen: MapScreen
   },
   { headerMode: "none" }
@@ -66,12 +53,23 @@ EventListStack.navigationOptions = {
   tabBarLabel: "Events"
 };
 
+const AboutStack = createStackNavigator(
+  {
+    About: AboutScreen
+  },
+  { headerMode: "none" }
+);
+
+AboutStack.navigationOptions = {
+  tabBarLabel: "About"
+};
+
 export default createMaterialTopTabNavigator(
   {
-    HomeStack,
     ActivitiesStack,
     PlacesStack,
-    EventListStack
+    EventListStack,
+    AboutStack
   },
   {
     tabBarComponent: MaterialTopTabBarWithStatusBar,
@@ -102,7 +100,3 @@ function MaterialTopTabBarWithStatusBar(props) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  navTitle: { fontFamily: "open-sans-bold" }
-});

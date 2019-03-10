@@ -45,7 +45,10 @@ export default class EventListScreen extends React.Component {
                 <ListItem
                   {...{ images, title, date, text, id }}
                   onPress={() =>
-                    this.props.navigation.navigate("EventScreen", { id })
+                    this.props.navigation.navigate("DetailsScreen", {
+                      id,
+                      type: "event"
+                    })
                   }
                 />
               )

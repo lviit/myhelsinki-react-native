@@ -4,7 +4,7 @@ import { Image, ScrollView, StyleSheet, View } from "react-native";
 import { MonoText } from "../components/StyledText";
 import { WebBrowser } from "expo";
 
-export default class HomeScreen extends React.Component {
+export default class AboutScreen extends React.Component {
   static navigationOptions = {
     header: null
   };
