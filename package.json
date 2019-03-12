@@ -22,7 +22,8 @@
     "react-native-maps": "^0.23.0",
     "react-native-render-html": "^4.1.1",
     "react-native-typography": "^1.4.0",
-    "react-navigation": "^3.0.9"
+    "react-navigation": "^3.0.9",
+    "url-search-params-polyfill": "^5.0.0"
   },
   "devDependencies": {
     "babel-preset-expo": "^5.0.0",

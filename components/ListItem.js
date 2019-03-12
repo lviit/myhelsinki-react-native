@@ -41,12 +41,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#ccc"
   },
   title: {
-    fontFamily: "ibm-plex-sans-condensed-semibold",
+    fontFamily: "ibm-plex-sans-semibold",
     //fontFamily: "source-sans-pro-bold",
     marginBottom: 5,
     //letterSpacing: 0.5,
-    fontSize: 16,
-    textTransform: "uppercase"
+    fontSize: 16
   },
   date: {
     fontFamily: "lato-semibold",

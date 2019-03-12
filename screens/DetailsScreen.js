@@ -1,31 +1,9 @@
 import React from "react";
 import { Image, StyleSheet } from "react-native";
 import { Container, Text, Content, Button } from "native-base";
-import { format } from "date-fns";
 import Loading from "../components/Loading";
 import HTML from "react-native-render-html";
-
-const formatDate = (start, end) =>
-  `${format(start, "DD.MM.YYYY HH:mm")}${
-    end ? " - " + format(end, "DD.MM.YYYY HH:mm") : ""
-  }`;
-
-const formatOpeningHours = hours =>
-  hours
-    .map(({ weekday_id, opens, closes, open24h }) => {
-      const weekdays = ["Ma", "Ti", "Ke", "To", "Pe", "La", "Su"];
-      const hours =
-        opens && closes
-          ? `${opens.slice(0, opens.length - 3)} - ${closes.slice(
-              0,
-              closes.length - 3
-            )}`
-          : "closed";
-      return open24h
-        ? "Open 24 hours"
-        : `${weekdays[weekday_id - 1]}: ${hours}`;
-    })
-    .join(", ");
+import { formatDate, formatOpeningHours, joinAndFilterEmpty } from "../helpers";
 
 export default class EventScreen extends React.Component {
   static navigationOptions = {
@@ -110,7 +88,8 @@ export default class EventScreen extends React.Component {
             </>
           )}
           <Text style={styles.location}>
-            Location: {`${street_address}, ${postal_code}, ${locality}`}
+            Location:{" "}
+            {joinAndFilterEmpty(street_address, postal_code, locality)}
             {" - "}
             <Text
               style={[styles.location, styles.link]}
@@ -123,14 +102,16 @@ export default class EventScreen extends React.Component {
               Show on map
             </Text>
           </Text>
-          <HTML
-            html={body}
-            tagsStyles={{
-              p: styles.p,
-              span: styles.span,
-              strong: styles.strong
-            }}
-          />
+          {body && (
+            <HTML
+              html={body}
+              tagsStyles={{
+                p: styles.p,
+                span: styles.span,
+                strong: styles.strong
+              }}
+            />
+          )}
         </Content>
       </Container>
     );
