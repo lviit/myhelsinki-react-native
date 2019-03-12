@@ -1,3 +1,5 @@
+import { format } from "date-fns";
+
 export const stripTags = str => str.replace(/(<([^>]+)>)/gi, "");
 
 export const formatDate = (start, end) =>

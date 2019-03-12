@@ -1,9 +1,10 @@
 import React from "react";
 import { Image, StyleSheet } from "react-native";
-import { Container, Text, Content, Button } from "native-base";
+import { Container, Text, Content } from "native-base";
 import Loading from "../components/Loading";
 import HTML from "react-native-render-html";
 import { formatDate, formatOpeningHours, joinAndFilterEmpty } from "../helpers";
+import BackButton from "../components/BackButton";
 
 export default class EventScreen extends React.Component {
   static navigationOptions = {
@@ -54,55 +55,49 @@ export default class EventScreen extends React.Component {
       <Loading />
     ) : (
       <Container>
-        <Button transparent onPress={() => this.props.navigation.goBack(null)}>
-          <Text>Back</Text>
-        </Button>
-        {images[0] && (
-          <Image
-            source={{ uri: images[0].url }}
-            style={{ height: 200, alignSelf: "stretch" }}
-          />
-        )}
-        <Content padder>
-          <Text style={styles.title}>{nameFi}</Text>
-          {event_dates && (
-            <Text style={styles.info}>
-              {formatDate(event_dates.starting_day, event_dates.ending_day)}
-            </Text>
+        <Content>
+          <BackButton handleBack={() => this.props.navigation.goBack(null)} />
+          {images[0] && (
+            <Image source={{ uri: images[0].url }} style={styles.image} />
           )}
-          {where_when_duration && (
-            <>
+          <Container style={styles.container}>
+            <Text style={styles.title}>{nameFi}</Text>
+            {event_dates && (
               <Text style={styles.info}>
-                Where and when: {where_when_duration.where_and_when}
+                {formatDate(event_dates.starting_day, event_dates.ending_day)}
               </Text>
-              <Text style={styles.info}>
-                Duration: {where_when_duration.duration}
-              </Text>
-            </>
-          )}
-          {opening_hours && (
-            <>
+            )}
+            {where_when_duration && (
+              <>
+                <Text style={styles.info}>
+                  Where and when: {where_when_duration.where_and_when}
+                </Text>
+                <Text style={styles.info}>
+                  Duration: {where_when_duration.duration}
+                </Text>
+              </>
+            )}
+            {opening_hours && (
               <Text style={styles.info}>
                 Opening hours: {formatOpeningHours(opening_hours.hours)}
               </Text>
-            </>
-          )}
-          <Text style={styles.location}>
-            Location:{" "}
-            {joinAndFilterEmpty(street_address, postal_code, locality)}
-            {" - "}
-            <Text
-              style={[styles.location, styles.link]}
-              onPress={() =>
-                this.props.navigation.navigate("MapScreen", {
-                  location: { lat, lon }
-                })
-              }
-            >
-              Show on map
+            )}
+            <Text style={styles.location}>
+              Location:{" "}
+              {joinAndFilterEmpty(street_address, postal_code, locality)}
+              {" - "}
+              <Text
+                style={[styles.location, styles.link]}
+                onPress={() =>
+                  this.props.navigation.navigate("MapScreen", {
+                    location: { lat, lon }
+                  })
+                }
+              >
+                Show on map
+              </Text>
             </Text>
-          </Text>
-          {body && (
+
             <HTML
               html={body}
               tagsStyles={{
@@ -111,7 +106,7 @@ export default class EventScreen extends React.Component {
                 strong: styles.strong
               }}
             />
-          )}
+          </Container>
         </Content>
       </Container>
     );
@@ -119,6 +114,14 @@ export default class EventScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  image: {
+    height: 200,
+    alignSelf: "stretch",
+    backgroundColor: "#ccc"
+  },
+  container: {
+    padding: 15
+  },
   title: {
     fontFamily: "ibm-plex-sans-condensed-bold",
     //fontFamily: "source-sans-pro-bold",
