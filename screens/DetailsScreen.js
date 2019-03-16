@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, StyleSheet } from "react-native";
+import { Image, StyleSheet, ScrollView, Dimensions } from "react-native";
 import { Container, Text, Content } from "native-base";
 import Loading from "../components/Loading";
 import HTML from "react-native-render-html";
@@ -13,7 +13,7 @@ export default class EventScreen extends React.Component {
 
   state = {
     eventData: {
-      description: { images: [{}], body: "" },
+      description: { images: [], body: "" },
       name: { fi: "" },
       location: { address: {} }
     },
@@ -57,9 +57,15 @@ export default class EventScreen extends React.Component {
       <Container>
         <Content>
           <BackButton handleBack={() => this.props.navigation.goBack(null)} />
-          {images[0] && (
-            <Image source={{ uri: images[0].url }} style={styles.image} />
-          )}
+          <ScrollView
+            style={styles.slider}
+            horizontal={true}
+            pagingEnabled={true}
+          >
+            {images.map(({ url }) => (
+              <Image source={{ uri: url }} style={styles.image} />
+            ))}
+          </ScrollView>
           <Container style={styles.container}>
             <Text style={styles.title}>{nameFi}</Text>
             {event_dates && (
@@ -114,10 +120,12 @@ export default class EventScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  image: {
-    height: 200,
-    alignSelf: "stretch",
+  slider: {
+    height: 250,
     backgroundColor: "#ccc"
+  },
+  image: {
+    width: Dimensions.get("window").width
   },
   container: {
     padding: 15
