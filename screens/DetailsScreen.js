@@ -2,6 +2,7 @@ import React from "react";
 import { Image, StyleSheet, ScrollView, Dimensions } from "react-native";
 import { Container, Text, Content } from "native-base";
 import Loading from "../components/Loading";
+import Tags from "../components/Tags";
 import HTML from "react-native-render-html";
 import { formatDate, formatOpeningHours, joinAndFilterEmpty } from "../helpers";
 import BackButton from "../components/BackButton";
@@ -46,6 +47,7 @@ export default class EventScreen extends React.Component {
         lat,
         lon
       },
+      tags,
       where_when_duration,
       event_dates,
       opening_hours
@@ -62,12 +64,13 @@ export default class EventScreen extends React.Component {
             horizontal={true}
             pagingEnabled={true}
           >
-            {images.map(({ url }) => (
-              <Image source={{ uri: url }} style={styles.image} />
+            {images.map(({ url }, i) => (
+              <Image key={i} source={{ uri: url }} style={styles.image} />
             ))}
           </ScrollView>
           <Container style={styles.container}>
             <Text style={styles.title}>{nameFi}</Text>
+            <Tags tags={tags} />
             {event_dates && (
               <Text style={styles.info}>
                 {formatDate(event_dates.starting_day, event_dates.ending_day)}
@@ -142,7 +145,7 @@ const styles = StyleSheet.create({
   },
   info: {
     fontFamily: "ibm-plex-sans-condensed-medium",
-    marginBottom: 2,
+    marginTop: 4,
     fontSize: 15
   },
   location: {

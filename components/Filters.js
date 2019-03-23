@@ -8,6 +8,7 @@ import {
   Text,
   Body
 } from "native-base";
+import { getTagColor } from "../helpers";
 
 const Filters = ({ tags, selectedTags, selectTag }) => (
   <Container>
@@ -18,7 +19,7 @@ const Filters = ({ tags, selectedTags, selectTag }) => (
       {Object.keys(tags).map(id => (
         <ListItem key={id} onPress={() => selectTag(id)}>
           <CheckBox
-            color="#3f3f3f"
+            color={getTagColor(tags[id])}
             checked={selectedTags.some(tag => tag === id)}
           />
           <Body>

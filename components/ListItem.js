@@ -3,10 +3,12 @@ import { format } from "date-fns";
 import { StyleSheet } from "react-native";
 import { ListItem, Thumbnail, Text, Left, Body } from "native-base";
 import { stripTags } from "../helpers";
+import Tags from "./Tags";
 
 const CustomListItem = ({
   description: { images, intro, body },
   name: { fi: title },
+  tags,
   event_dates,
   onPress
 }) => (
@@ -20,6 +22,7 @@ const CustomListItem = ({
       <Text numberOfLines={1} style={styles.title}>
         {title}
       </Text>
+      <Tags tags={tags} />
       {event_dates && (
         <Text style={styles.date}>
           {format(event_dates.starting_day, "DD.MM.YYYY")}
@@ -53,6 +56,7 @@ const styles = StyleSheet.create({
     fontSize: 14
   },
   text: {
+    marginTop: 5,
     fontFamily: "ibm-plex-sans-regular",
     //fontFamily: "source-sans-pro-regular",
     letterSpacing: 0.1,
