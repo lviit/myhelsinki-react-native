@@ -8,6 +8,7 @@ const Tags = ({ tags }) => (
     <FlatList
       horizontal={true}
       data={tags}
+      keyExtractor={(item, index) => index.toString()}
       renderItem={({ item }) => (
         <Text style={[styles.tag, { backgroundColor: getTagColor(item.name) }]}>
           {item.name.toLowerCase()}

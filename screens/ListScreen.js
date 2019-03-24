@@ -6,8 +6,8 @@ import ListItem from "../components/ListItem";
 import Filters from "../components/Filters";
 import "url-search-params-polyfill";
 
-import { RefreshControl } from "react-native";
-import { Container, Content, List, Drawer, Button, Text } from "native-base";
+import { RefreshControl, FlatList, View } from "react-native";
+import { Container, Drawer, Button, Text } from "native-base";
 
 const getTypePlural = type => {
   const mapTypeToPlural = {
@@ -20,32 +20,52 @@ const getTypePlural = type => {
 export default class EventListScreen extends React.Component {
   state = {
     isLoading: false,
+    isLoadingMore: false,
     results: [],
     tags: {},
-    selectedTags: []
+    selectedTags: [],
+    page: 0
   };
 
   componentDidMount() {
-    this.fetchData();
+    this.loadInitialData();
   }
 
-  fetchData() {
+  async fetchData() {
     const type = getTypePlural(this.props.type);
+    const { selectedTags, page } = this.state;
     const params = new URLSearchParams({
-      limit: 30
+      limit: 20,
+      start: page * 20
     });
 
-    this.state.selectedTags.length > 0 &&
-      params.append("tags_search", this.state.selectedTags.join(","));
+    selectedTags.length > 0 &&
+      params.append("tags_search", selectedTags.join(","));
 
-    console.log(params.toString());
+    const res = await fetch(
+      `http://open-api.myhelsinki.fi/v1/${type}/?${params.toString()}`
+    );
+    return await res.json();
+  }
 
+  async loadInitialData() {
     this.setState({ isLoading: true });
-    fetch(`http://open-api.myhelsinki.fi/v1/${type}/?${params.toString()}`)
-      .then(res => res.json())
-      .then(({ data, tags }) => {
-        this.setState({ results: data, tags, isLoading: false });
+    const { data, tags } = await this.fetchData();
+    this.setState({ results: data, tags, isLoading: false });
+  }
+
+  async loadMore() {
+    const { isLoadingMore, page } = this.state;
+    if (!isLoadingMore) {
+      await this.setState({ page: page + 1, isLoadingMore: true });
+      const { data, tags } = await this.fetchData();
+
+      this.setState({
+        results: [...this.state.results, ...data],
+        tags: { ...this.state.tags, ...tags },
+        isLoadingMore: false
       });
+    }
   }
 
   selectTag = selectedId => {
@@ -55,12 +75,11 @@ export default class EventListScreen extends React.Component {
         ? selectedTags.filter(id => id === !selectedId)
         : [...selectedTags, selectedId]
     });
-    console.log(this.state.selectedTags);
   };
 
   closeDrawer = () => {
     this.drawer._root.close();
-    this.fetchData();
+    this.loadInitialData();
   };
   openDrawer = () => {
     this.drawer._root.open();
@@ -87,19 +106,12 @@ export default class EventListScreen extends React.Component {
           }
           onClose={() => this.closeDrawer()}
         >
-          <Content
-            refreshControl={
-              <RefreshControl
-                refreshing={this.state.isLoading}
-                onRefresh={() => this.fetchData()}
-              />
-            }
-          >
-            <List style={styles.container}>
-              {results.map(({ id, ...rest }) => (
+          <View style={styles.listContainer}>
+            <FlatList
+              data={results}
+              renderItem={({ item: { id, ...rest } }) => (
                 <ListItem
                   {...rest}
-                  key={id}
                   onPress={() =>
                     navigation.navigate("DetailsScreen", {
                       id,
@@ -107,9 +119,19 @@ export default class EventListScreen extends React.Component {
                     })
                   }
                 />
-              ))}
-            </List>
-          </Content>
+              )}
+              keyExtractor={(item, index) => index.toString()}
+              extraData={this.state}
+              refreshControl={
+                <RefreshControl
+                  refreshing={this.state.isLoading}
+                  onRefresh={() => this.loadInitialData()}
+                />
+              }
+              onEndReachedThreshold={0.4}
+              onEndReached={() => this.loadMore()}
+            />
+          </View>
           <Button style={styles.button} onPress={() => this.openDrawer()}>
             <Text style={styles.buttonText}>Filter results</Text>
           </Button>
@@ -120,6 +142,11 @@ export default class EventListScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  listContainer: {
+    width: "100%",
+    height: "100%",
+    paddingBottom: 50
+  },
   button: {
     position: "absolute",
     justifyContent: "center",

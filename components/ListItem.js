@@ -12,7 +12,7 @@ const CustomListItem = ({
   event_dates,
   onPress
 }) => (
-  <ListItem thumbnail style={styles.text} onPress={onPress}>
+  <ListItem thumbnail onPress={onPress}>
     <Left style={styles.left}>
       {images && images[0] && (
         <Thumbnail square large source={{ uri: images[0].url }} />

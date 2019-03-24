@@ -108,7 +108,7 @@ export default class EventScreen extends React.Component {
             </Text>
 
             <HTML
-              html={body}
+              html={body || "<p></p>"}
               tagsStyles={{
                 p: styles.p,
                 span: styles.span,
