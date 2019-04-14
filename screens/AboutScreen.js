@@ -1,7 +1,5 @@
 import React from "react";
-import { Image, ScrollView, StyleSheet, View } from "react-native";
-//import Text from "../components/Text";
-import { MonoText } from "../components/StyledText";
+import { Image, ScrollView, StyleSheet, View, Text } from "react-native";
 import { WebBrowser } from "expo";
 
 export default class AboutScreen extends React.Component {
@@ -24,22 +22,19 @@ export default class AboutScreen extends React.Component {
           </View>
 
           <View style={styles.getStartedContainer}>
-            <MonoText style={styles.developmentModeText}>
+            <Text style={styles.text}>
               React Native app using the MyHelsinki Open API. Check out the{" "}
-              <MonoText
+              <Text
                 onPress={this._handleMyHelsinkiLink}
-                style={styles.helpLinkText}
+                style={styles.linkText}
               >
                 official MyHelsinki website
-              </MonoText>{" "}
+              </Text>{" "}
               or have a closer look at this project on{" "}
-              <MonoText
-                onPress={this._handleGitHubLink}
-                style={styles.helpLinkText}
-              >
+              <Text onPress={this._handleGitHubLink} style={styles.linkText}>
                 Github.
-              </MonoText>
-            </MonoText>
+              </Text>
+            </Text>
           </View>
         </ScrollView>
       </View>
@@ -61,7 +56,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1
   },
-  developmentModeText: {
+  text: {
     marginBottom: 20,
     textAlign: "center"
   },
@@ -80,10 +75,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginHorizontal: 50
   },
-  helpLink: {
-    paddingVertical: 15
-  },
-  helpLinkText: {
+  linkText: {
     color: "#2e78b7"
   }
 });

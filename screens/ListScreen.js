@@ -6,7 +6,12 @@ import ListItem from "../components/ListItem";
 import Filters from "../components/Filters";
 import "url-search-params-polyfill";
 
-import { RefreshControl, FlatList, View } from "react-native";
+import {
+  RefreshControl,
+  FlatList,
+  View,
+  ActivityIndicator
+} from "react-native";
 import { Container, Drawer, Button, Text } from "native-base";
 
 const getTypePlural = type => {
@@ -86,7 +91,13 @@ export default class EventListScreen extends React.Component {
   };
 
   render() {
-    const { isLoading, results, tags, selectedTags } = this.state;
+    const {
+      isLoading,
+      isLoadingMore,
+      results,
+      tags,
+      selectedTags
+    } = this.state;
     const { type, navigation } = this.props;
 
     return isLoading ? (
@@ -130,6 +141,9 @@ export default class EventListScreen extends React.Component {
               }
               onEndReachedThreshold={0.4}
               onEndReached={() => this.loadMore()}
+              ListFooterComponent={
+                <LoadMoreIndicator isLoadingMore={isLoadingMore} />
+              }
             />
           </View>
           <Button style={styles.button} onPress={() => this.openDrawer()}>
@@ -165,5 +179,13 @@ const styles = StyleSheet.create({
   },
   container: {
     paddingBottom: 50
+  },
+  loadMoreIndicator: {
+    marginVertical: 20
   }
 });
+
+const LoadMoreIndicator = isLoadingMore =>
+  isLoadingMore && (
+    <ActivityIndicator size="large" style={styles.loadMoreIndicator} />
+  );

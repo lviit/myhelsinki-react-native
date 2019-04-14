@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     fontSize: 16
   },
   date: {
-    fontFamily: "lato-semibold",
+    fontFamily: "ibm-plex-sans-semibold",
     marginBottom: 2,
     fontSize: 14
   },
